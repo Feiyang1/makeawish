@@ -1,5 +1,5 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './javascript/app.js',
@@ -9,10 +9,10 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   plugins: [
-    // Copy our app's index.html to the build folder.
-    new CopyWebpackPlugin([
-      { from: './mytree.html', to: "index.html" }
-    ])
+    new HtmlWebpackPlugin({
+        template: './index.html',
+        hash: true
+    })
   ],
   module: {
     rules: [

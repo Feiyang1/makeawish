@@ -1,11 +1,11 @@
 import Tree from './tree';
+import '../styles.css';
+import {loadLeavesConfiguration} from './services';
 
 class App {
-    constructor() {
-    }
-
-    start() {
-        const tree = new Tree(960, 960, document.getElementsByTagName('body')[0]);
+    async start() {
+        const leafNodes = await loadLeavesConfiguration();
+        const tree = new Tree(960, 960, leafNodes, document.getElementsByTagName('body')[0]);
         tree.draw();
     }
 }

@@ -1,10 +1,12 @@
 import ModalController from './modal';
 import services, { loadTreeTrunk, loadLeavesConfiguration } from './services';
+import * as d3 from 'd3';
 
 export default class Tree {
-    constructor(width, height, container) {
+    constructor(width, height, nodes, container) {
         this.width = width;
         this.height = height;
+        this.nodes = nodes;
         this.container = container;
     }
 
@@ -33,7 +35,7 @@ export default class Tree {
         }
 
         try {
-            const data = await loadLeavesConfiguration();
+            const data = this.nodes;
             data.forEach(function (d) {
                 d.size = +d.size;
             });
@@ -64,19 +66,12 @@ export default class Tree {
                     d3.event.stopPropagation();
                     const message = await services.getMessage(idx);
 
-                    const body = document.getElementsByTagName('body')[0];
-                    const overlay = document.createElement('div');
-                    overlay.className = 'overlay';
                     if (message) {
-                        const content = this.showMessage(message);
-                        overlay.appendChild(content);
-                    }
-                    else {
-                        const content = this.purchaseMessage(idx);
-                        overlay.appendChild(content);
+                        ModalController.showMessage(message);
+                    } else {
+                        ModalController.showPurchase(idx);
                     }
 
-                    body.appendChild(overlay);
                 })
                 .call(d3.drag()
                     .on("start", dragstarted)
@@ -118,38 +113,5 @@ export default class Tree {
             radius: data[node_counter].size * 1.5,
             text: data[node_counter].text
         };
-    }
-
-    showMessage(msg) {
-        const message = document.createElement('div');
-        message.className = 'content';
-        message.textContent = msg;
-        return message;
-    }
-
-    purchaseMessage(idx) {
-        const content = document.createElement('div');
-        content.className = 'purchase';
-        const input = document.createElement('input');
-        input.type = 'text';
-        const button = document.createElement('div');
-        button.className = 'purchase-button';
-        button.textContent = 'Purchase';
-        content.appendChild(input);
-        content.appendChild(button);
-
-        content.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
-        button.addEventListener('click', async () => {
-            if (input.value) {
-                console.log(input.value);
-                services.purchaseMessage(idx, input.value);
-            } else {
-                console.log('no value');
-            }
-        });
-        return content;
     }
 }

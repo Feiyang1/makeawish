@@ -1,6 +1,7 @@
 import getWeb3Instance from './web3';
 import contract from 'truffle-contract';
 import wishing_tree_artifacts from '../../build/contracts/WishingTree.json'
+import * as d3 from 'd3';
 
 export function loadTreeTrunk() {
     return new Promise(function (resolve, reject) {
