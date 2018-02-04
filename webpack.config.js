@@ -10,18 +10,24 @@ module.exports = {
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-        template: './index.html',
-        hash: true
+      template: './index.html',
+      hash: true
     })
   ],
   module: {
     rules: [
       {
-       test: /\.css$/,
-       use: [ 'style-loader', 'css-loader' ]
-      }
-    ],
-    loaders: [
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.csv$/,
+        use: ['raw-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: ['svg-inline-loader']
+      },
       { test: /\.json$/, use: 'json-loader' },
       {
         test: /\.js$/,
@@ -33,5 +39,8 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    contentBase: "./build"
   }
 }

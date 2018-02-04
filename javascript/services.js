@@ -1,30 +1,19 @@
 import getWeb3Instance from './web3';
 import contract from 'truffle-contract';
-import wishing_tree_artifacts from '../build/contracts/WishingTree.json'
+import wishing_tree_artifacts from '../build/contracts/WishingTree.json';
+import leaves from '../resources/word_groups.csv';
+import trunk from '../resources/noun_441084_cc.svg';
 import * as d3 from 'd3';
 
 export function loadTreeTrunk() {
-    return new Promise(function (resolve, reject) {
-        d3.xml("/resources/noun_441084_cc.svg").mimeType("image/svg+xml").get(function (error, xml) {
-            if (error) reject(error);
-            else resolve(xml);
-        });
-    });
+    return trunk;
 }
 
 export function loadLeavesConfiguration() {
-    return new Promise(function (resolve, reject) {
-        d3.text("word_groups.csv", (error, text) => {
-            if (error) reject(error);
-            else {
-                const colNames = "text,size,group\n" + text;
-                const data = d3.csvParse(colNames);
-                resolve(data);
-            }
-        });
-    });
+    const colNames = "text,size,group\n" + leaves;
+    const data = d3.csvParse(colNames);
+    return data;
 }
-
 
 class Service {
     constructor() {

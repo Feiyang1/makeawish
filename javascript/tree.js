@@ -10,7 +10,7 @@ export default class Tree {
         this.container = container;
     }
 
-    async draw() {
+    draw() {
         const svg = d3.select(this.container).append("svg")
             .attr("width", this.width)
             .attr("height", this.height)
@@ -22,17 +22,12 @@ export default class Tree {
             .attr('transform', 'translate(100, 230)');
 
         // tree truck
-        try {
-            const svgXml = await loadTreeTrunk();
-            trunk.node()
-                .appendChild(svgXml.documentElement);
+        const svgXml = loadTreeTrunk();
+        trunk.node().innerHTML = svgXml;
 
-            trunk.select('svg')
-                .attr('width', 800)
-                .attr('height', 800);
-        } catch (e) {
-            throw e;
-        }
+        trunk.select('svg')
+            .attr('width', 800)
+            .attr('height', 800);
 
         try {
             const data = this.nodes;
