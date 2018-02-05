@@ -39,7 +39,6 @@ class Service {
             }
 
             this.account = accs[0];
-            this.account2 = accs[1];
         })
     }
 
@@ -66,7 +65,7 @@ class Service {
 
     async withdraw() {
         const instance = await this.getSmartContractInstance();
-        instance.withdraw({ from: this.account2 });
+        instance.withdraw({ from: this.account });
     }
 
     initializeContract(artifacts, provider) {
