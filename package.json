@@ -39,8 +39,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
-    "d3": "^4.12.2",
-    "truffle-hdwallet-provider": "0.0.3"
+    "d3": "^4.12.2"
   },
   "description": ""
 }
