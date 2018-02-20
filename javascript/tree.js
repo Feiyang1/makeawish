@@ -1,5 +1,6 @@
 import ModalController from './modal';
-import services, { loadTreeTrunk, loadLeavesConfiguration } from './services';
+import services from './services';
+import { loadLeaf, loadTreeTrunk, loadLeavesConfiguration } from './resources';
 import * as d3 from 'd3';
 
 export default class Tree {
@@ -24,6 +25,9 @@ export default class Tree {
         // tree truck
         const svgXml = loadTreeTrunk();
         trunk.node().innerHTML = svgXml;
+
+        // leaf
+        const leaf = loadLeaf();
 
         trunk.select('svg')
             .attr('width', 800)
@@ -53,9 +57,12 @@ export default class Tree {
 
             var node = svg.append("g")
                 .attr("class", "nodes")
-                .selectAll("circle")
+                .selectAll("use")
                 .data(nodes)
-                .enter().append("circle")
+                .enter().append("use")
+                .attr("href", "#leaf")
+                .attr("width", (d) => d.radius*2)
+                .attr("height", (d) => d.radius*2)
                 .attr("r", function (d) { return d.radius })
                 .on("click", async (d, idx) => {
                     d3.event.stopPropagation();
@@ -81,8 +88,8 @@ export default class Tree {
 
         function tick(e) {
             node
-                .attr("cx", function (d) { return d.x; })
-                .attr("cy", function (d) { return d.y; });
+                .attr("x", function (d) { return d.x - d.radius; })
+                .attr("y", function (d) { return d.y - d.radius; });
         }
 
         function dragstarted(d) {

@@ -27,4 +27,8 @@ contract WishingTree {
         owner.transfer(this.balance);
     }
 
+    function getOwner() public returns(address) {
+        return owner;
+    }
+
 }
